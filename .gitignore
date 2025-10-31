@@ -22,7 +22,8 @@ ENV/
 # Data cache
 .DS_Store
 *.tmp
-data/raw/
+data/raw/*
+!data/raw/.gitkeep
 
 # LaTeX build files
 *.aux
