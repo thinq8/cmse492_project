@@ -1,0 +1,20 @@
+{
+  "blueGoldDiff": {
+    "iqr": 3143.0,
+    "lower_bound": -6294.0,
+    "upper_bound": 6278.0,
+    "outlier_fraction": 0.012779956978362646
+  },
+  "blueExperienceDiff": {
+    "iqr": 2516.0,
+    "lower_bound": -5085.0,
+    "upper_bound": 4979.0,
+    "outlier_fraction": 0.011388080475768695
+  },
+  "blueKills": {
+    "iqr": 4.0,
+    "lower_bound": -2.0,
+    "upper_bound": 14.0,
+    "outlier_fraction": 0.00835125901556371
+  }
+}
