@@ -17,7 +17,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from sklearn.dummy import DummyClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 sns.set_theme(style="whitegrid")
 
@@ -74,6 +79,11 @@ def run(args: argparse.Namespace) -> None:
     args.figures_dir.mkdir(parents=True, exist_ok=True)
     args.processed_dir.mkdir(parents=True, exist_ok=True)
 
+    sample_path = args.processed_dir / "sample_matches.csv"
+    train_df.sample(n=min(200, len(train_df)), random_state=args.random_state).to_csv(
+        sample_path, index=False
+    )
+
     numeric_cols = train_df.select_dtypes(include=[np.number]).columns
 
     summary = {
@@ -114,6 +124,17 @@ def run(args: argparse.Namespace) -> None:
     (args.processed_dir / "split_metadata.json").write_text(
         json.dumps(split_meta, indent=2)
     )
+
+    missing_rates = (
+        pd.Series(summary["missing_rates"]).sort_values(ascending=False)
+    )
+    fig, ax = plt.subplots(figsize=(8, 4))
+    missing_rates.head(15).plot(kind="bar", color="#7570b3", ax=ax)
+    ax.set_ylabel("Fraction Missing")
+    ax.set_title("Top Feature Missingness (Train Split)")
+    fig.tight_layout()
+    fig.savefig(args.figures_dir / "missingness.png", dpi=300)
+    plt.close(fig)
 
     fig, ax = plt.subplots(figsize=(6, 4))
     class_counts = train_df[target].value_counts().sort_index()
@@ -220,6 +241,43 @@ def run(args: argparse.Namespace) -> None:
 
     (args.processed_dir / "outlier_summary.json").write_text(
         json.dumps(outlier_summary, indent=2)
+    )
+
+    feature_cols = [
+        col for col in train_df.columns if col not in {target, "gameId"}
+    ]
+    X_train = train_df[feature_cols]
+    y_train = train_df[target]
+    X_test = test_df[feature_cols]
+    y_test = test_df[target]
+
+    baseline_results: dict[str, dict[str, float]] = {}
+
+    dummy = DummyClassifier(strategy="most_frequent")
+    dummy.fit(X_train, y_train)
+    y_pred_dummy = dummy.predict(X_test)
+    baseline_results["dummy_majority"] = {
+        "accuracy": float(accuracy_score(y_test, y_pred_dummy)),
+        "f1": float(f1_score(y_test, y_pred_dummy, zero_division=0)),
+    }
+
+    log_reg = Pipeline(
+        steps=[
+            ("scaler", StandardScaler()),
+            ("clf", LogisticRegression(max_iter=1000, solver="lbfgs")),
+        ]
+    )
+    log_reg.fit(X_train, y_train)
+    y_pred_lr = log_reg.predict(X_test)
+    y_proba_lr = log_reg.predict_proba(X_test)[:, 1]
+    baseline_results["logistic_regression"] = {
+        "accuracy": float(accuracy_score(y_test, y_pred_lr)),
+        "f1": float(f1_score(y_test, y_pred_lr)),
+        "roc_auc": float(roc_auc_score(y_test, y_proba_lr)),
+    }
+
+    (args.processed_dir / "baseline_metrics.json").write_text(
+        json.dumps(baseline_results, indent=2)
     )
 
 
