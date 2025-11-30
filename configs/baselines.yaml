@@ -1,0 +1,39 @@
+{
+  "data_path": "data/raw/high_diamond_ranked_10min.csv",
+  "processed_dir": "data/processed",
+  "test_size": 0.2,
+  "random_state": 42,
+  "drop_columns": ["gameId", "redGoldDiff", "redExperienceDiff"],
+  "log_columns": [
+    "blueTotalGold",
+    "blueTotalExperience",
+    "redTotalGold",
+    "redTotalExperience",
+    "blueGoldPerMin",
+    "redGoldPerMin"
+  ],
+  "ratio_features": true,
+  "cv": {
+    "n_splits": 5,
+    "shuffle": true
+  },
+  "scoring_metrics": ["accuracy", "f1", "roc_auc"],
+  "models": {
+    "logistic_regression": {
+      "penalty": "l2",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 1500,
+      "class_weight": "balanced"
+    },
+    "random_forest": {
+      "n_estimators": 400,
+      "max_depth": null,
+      "min_samples_leaf": 2,
+      "max_features": "sqrt",
+      "n_jobs": -1
+    }
+  },
+  "artifact_dir": "models/baselines",
+  "metrics_output": "data/processed/baseline_cv_metrics.json"
+}

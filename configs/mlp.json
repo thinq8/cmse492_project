@@ -1,0 +1,31 @@
+{
+  "data_path": "data/raw/high_diamond_ranked_10min.csv",
+  "processed_dir": "data/processed",
+  "test_size": 0.2,
+  "random_state": 42,
+  "drop_columns": ["gameId", "redGoldDiff", "redExperienceDiff"],
+  "log_columns": [
+    "blueTotalGold",
+    "blueTotalExperience",
+    "redTotalGold",
+    "redTotalExperience",
+    "blueGoldPerMin",
+    "redGoldPerMin"
+  ],
+  "ratio_features": true,
+  "cv": {
+    "n_splits": 5,
+    "shuffle": true
+  },
+  "training": {
+    "hidden_units": [64, 32],
+    "dropout_rate": 0.3,
+    "l2": 0.0005,
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 120,
+    "patience": 12
+  },
+  "artifact_dir": "models/neural_net",
+  "metrics_output": "data/processed/mlp_metrics.json"
+}

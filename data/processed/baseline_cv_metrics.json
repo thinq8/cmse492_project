@@ -1,0 +1,96 @@
+{
+  "metrics": {
+    "logistic_regression": {
+      "cv": {
+        "accuracy": {
+          "mean": 0.7338973090256927,
+          "std": 0.012508029839195235
+        },
+        "f1": {
+          "mean": 0.7324969350831577,
+          "std": 0.015274331277363237
+        },
+        "roc_auc": {
+          "mean": 0.8106032562700415,
+          "std": 0.008135994489529235
+        }
+      },
+      "test": {
+        "accuracy": 0.7186234817813765,
+        "f1": 0.7208835341365462,
+        "roc_auc": 0.8060288483209377
+      },
+      "artifact_path": "models/baselines/logistic_regression.joblib"
+    },
+    "random_forest": {
+      "cv": {
+        "accuracy": {
+          "mean": 0.7273167119032179,
+          "std": 0.01301697778827958
+        },
+        "f1": {
+          "mean": 0.7253152599770853,
+          "std": 0.01670824730857873
+        },
+        "roc_auc": {
+          "mean": 0.7997578609921407,
+          "std": 0.009922566392244024
+        }
+      },
+      "test": {
+        "accuracy": 0.7135627530364372,
+        "f1": 0.7123983739837398,
+        "roc_auc": 0.8013379228389371
+      },
+      "artifact_path": "models/baselines/random_forest.joblib"
+    }
+  },
+  "config": {
+    "data_path": "data/raw/high_diamond_ranked_10min.csv",
+    "processed_dir": "data/processed",
+    "test_size": 0.2,
+    "random_state": 42,
+    "drop_columns": [
+      "gameId",
+      "redGoldDiff",
+      "redExperienceDiff"
+    ],
+    "log_columns": [
+      "blueTotalGold",
+      "blueTotalExperience",
+      "redTotalGold",
+      "redTotalExperience",
+      "blueGoldPerMin",
+      "redGoldPerMin"
+    ],
+    "ratio_features": true,
+    "cv": {
+      "n_splits": 5,
+      "shuffle": true
+    },
+    "scoring_metrics": [
+      "accuracy",
+      "f1",
+      "roc_auc"
+    ],
+    "models": {
+      "logistic_regression": {
+        "penalty": "l2",
+        "C": 1.0,
+        "solver": "lbfgs",
+        "max_iter": 1500,
+        "class_weight": "balanced"
+      },
+      "random_forest": {
+        "n_estimators": 400,
+        "max_depth": null,
+        "min_samples_leaf": 2,
+        "max_features": "sqrt",
+        "n_jobs": -1
+      }
+    },
+    "artifact_dir": "models/baselines",
+    "metrics_output": "data/processed/baseline_cv_metrics.json"
+  },
+  "feature_count": 45
+}

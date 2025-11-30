@@ -6,3 +6,7 @@ scikit-learn
 jupyter
 nbformat
 nbclient
+tensorflow
+shap
+tensorflow-decision-forests
+keras-tuner
