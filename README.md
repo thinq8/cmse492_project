@@ -26,9 +26,10 @@ This repo tracks the CMSE 492 capstone where we forecast 10-minute match outcome
 5. **Open `notebooks/` in Jupyter or VS Code** and run any of the exploratory/modeling workflows below.
 
 ## Data & Artifacts
-- `data/raw/high_diamond_ranked_10min.csv` — Kaggle Diamond ranked 10-minute snapshot (**never** commit it).
+- `data/raw/high_diamond_ranked_10min.csv` — Riot Games telemetry for 9,879 Diamond-tier solo queue matches sampled exactly at the ten-minute mark and republished on Kaggle by Bobby Chen. Each record covers 39 numeric features (objective control, vision, gold/XP, combat) plus the binary `blueWins` label. Cite the Kaggle page in reports but describe the true origin as Riot's match API per the course rubric.
 - `data/processed/` stores light, shareable files: train/test splits, engineered ratios, metrics JSON, etc.
 - Feature engineering helpers live inside notebooks for now; when they stabilize, move them into `src/preprocessing/`.
+- Engineered feature exports (`engineered_features.csv`, `engineered_train.csv`, `engineered_test.csv`) include domain ratios such as `blue_objective_share`, `blue_vision_share`, `blue_kill_share`, ward efficiency, XP/gold momentum, and log-transformed totals. These match the write-up requirements for describing preprocessing decisions.
 
 ## Project Layout
 ```
