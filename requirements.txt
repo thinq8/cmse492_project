@@ -1,12 +1,18 @@
-pandas
+# Core scientific stack
 numpy
+pandas
+scikit-learn
 matplotlib
 seaborn
-scikit-learn
+
+# Modeling libraries
+tensorflow
+tensorflow-decision-forests
+keras-tuner
+shap
+xgboost
+
+# Notebook + tooling
 jupyter
 nbformat
 nbclient
-tensorflow
-shap
-tensorflow-decision-forests
-keras-tuner
