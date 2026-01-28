@@ -6,9 +6,13 @@ This repo tracks the CMSE 492 capstone where we forecast 10-minute match outcome
 1. **Create/activate a virtual environment**
    ```bash
    python -m venv .venv
-   source .venv/bin/activate  # Windows: .venv\Scripts\activate
+   source .venv/bin/activate  # Windows: .venv\Scripts\activate or
+
+   uv init 
+   uv add -r requirements.txt
+
    ```
-2. **Install the requirements** (scientific stack, TensorFlow, TF-DF, XGBoost, notebooks):
+2. **Install the requirements** (scientific stack, TensorFlow, TF-DF, XGBoost, notebooks, skip if UV):
    ```bash
    pip install -r requirements.txt
    ```
