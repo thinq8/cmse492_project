@@ -8,8 +8,7 @@ This repo tracks the CMSE 492 capstone where we forecast 10-minute match outcome
    python -m venv .venv
    source .venv/bin/activate  # Windows: .venv\Scripts\activate or
 
-   uv init 
-   uv add -r requirements.txt
+   uv sync
 
    ```
 2. **Install the requirements** (scientific stack, TensorFlow, TF-DF, XGBoost, notebooks, skip if UV):
